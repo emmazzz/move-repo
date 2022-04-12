@@ -31,7 +31,7 @@ const ROPSTEN_PRIVATE_KEY = "000000000000000000000000000000000000000000000000000
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4",
+  solidity: { version: "0.8.4", optimizer: { enabled: true }},
   gasReporter: {
     enabled: true
   },

@@ -185,9 +185,11 @@ module Evm::ERC20Mock {
         require(to != @0x0, b"ERC20: transfer to the zero address");
         let s = borrow_global_mut<State>(self());
         let from_bal = mut_balanceOf(s, from);
-        require(U256::le(copy amount, *from_bal), b"ERC20: transfer amount exceeds balance");
-        *from_bal = U256::sub(*from_bal, copy amount);
+        let from_bal_val = *from_bal;
+        require(U256::le(copy amount, from_bal_val), b"ERC20: transfer amount exceeds balance");
+        *from_bal = U256::sub(from_bal_val, copy amount);
         let to_bal = mut_balanceOf(s, to);
+//        let to_bal_val = *to_bal;
         *to_bal = U256::add(*to_bal, copy amount);
         emit(Transfer{from, to, value: amount});
     }

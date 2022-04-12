@@ -124,7 +124,7 @@ def move_to_yul(path_source):
         return output_file.read()
 
 
-def solc(path_source, yul_code):
+def solc(yul_code):
     solc_res = subprocess.run([path_solc, "--optimize", "--strict-assembly", "--bin", "-"], input = yul_code, capture_output = True)
     if solc_res.returncode != 0:
         eprint()
@@ -164,10 +164,19 @@ def run(path_source):
     print("Compiling {}...".format(path_source))
     yul_code = move_to_yul(path_source)
     abi = load_abi(path_source)
-    bytecode = solc(path_source, yul_code)
+    bytecode = solc(yul_code)
     gen_artifact(path_source, abi, bytecode)
 
 
-for path_source in list_move_sources():
-    run(path_source)
+# for path_source in list_move_sources():
+#     run(path_source)
+
+# with open('sol.yul/ERC20Mock_Sol.yul') as f:
+with open('output.yul') as f:
+    yul_code = f.read().encode()
+    path_source = "/Users/emmazjy/repos/move/language/evm/hardhat-examples/contracts/ERC20Mock.move"
+    abi = load_abi(path_source)
+    bytecode = solc(yul_code)
+    gen_artifact(path_source, abi, bytecode)
+
 print("Success.")
