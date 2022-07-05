@@ -448,3 +448,49 @@ function {:inline} $CondExtendEventStore{{S}}(
         es
 }
 {% endmacro event_module %}
+
+{# Transfer Module
+   ============
+#}
+
+{% macro transfer_module(instance) %}
+{%- set S = "'" ~ instance.suffix ~ "'" -%}
+{%- set T = instance.name -%}
+
+
+procedure {:inline 1} $2_transfer_transfer_internal{{S}}(obj: {{T}}, recipient: int, to_object: bool);
+
+procedure {:inline 1} $2_transfer_share_object{{S}}(obj: {{T}});
+
+procedure {:inline 1} $2_transfer_freeze_object{{S}}(obj: {{T}});
+
+
+{% endmacro transfer_module %}
+
+{# Id Module
+   ============
+#}
+
+{% macro id_module(instance) %}
+{%- set S = "'" ~ instance.suffix ~ "'" -%}
+{%- set T = instance.name -%}
+
+
+procedure {:inline 1} $2_id_get_versioned_id{{S}}(obj: {{T}}) returns (res: $2_id_VersionedID);
+
+procedure {:inline 1} $2_id_delete_id{{S}}(id: {{T}});
+
+{% endmacro id_module %}
+
+{# Id Module
+   ============
+#}
+
+{% macro sui_event_module(instance) %}
+{%- set S = "'" ~ instance.suffix ~ "'" -%}
+{%- set T = instance.name -%}
+
+
+procedure {:inline 1} $2_event_emit{{S}}(event: {{T}});
+
+{% endmacro sui_event_module %}

@@ -40,6 +40,9 @@ const TABLE_ARRAY_THEORY: &[u8] = include_bytes!("prelude/table-array-theory.bpl
 // TODO use named addresses
 const BCS_MODULE: &str = "0x1::bcs";
 const EVENT_MODULE: &str = "0x1::event";
+const TRANSFER_MODULE: &str = "0x2::transfer";
+const ID_MODULE: &str = "0x2::id";
+const SUI_EVENT_MODULE: &str = "0x2::event";
 
 mod boogie_helpers;
 pub mod boogie_wrapper;
@@ -144,6 +147,12 @@ pub fn add_prelude(
     context.insert("bcs_instances", &bcs_instances);
     let event_instances = filter_native(EVENT_MODULE);
     context.insert("event_instances", &event_instances);
+    let transfer_instances = filter_native(TRANSFER_MODULE);
+    context.insert("transfer_instances", &transfer_instances);
+    let id_instances = filter_native(ID_MODULE);
+    context.insert("id_instances", &id_instances);
+    let sui_event_instances = filter_native(SUI_EVENT_MODULE);
+    context.insert("sui_event_instances", &sui_event_instances);
 
     // TODO: we have defined {{std}} for adaptable resolution of stdlib addresses but
     //   not used it yet in the templates.

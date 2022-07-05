@@ -732,3 +732,43 @@ axiom $EventStore__is_empty($EmptyEventStore);
 procedure {:inline 1} $InitEventStore() {
 }
 {%- endif %}
+
+// ==================================================================================
+// Native transfer
+
+
+{%- for instance in transfer_instances %}
+
+// ----------------------------------------------------------------------------------
+// Native transfer implementation for object type `{{instance.suffix}}`
+
+{{ native::transfer_module(instance=instance) -}}
+{%- endfor %}
+
+procedure {:inline 1} $2_transfer_delete_child_object_internal(child: int, child_id: $2_id_VersionedID);
+
+// ==================================================================================
+// Native id
+
+procedure {:inline 1} $2_id_bytes_to_address(bytes: Vec (int)) returns (res: int);
+
+{%- for instance in id_instances %}
+
+// ----------------------------------------------------------------------------------
+// Native id implementation for object type `{{instance.suffix}}`
+
+{{ native::id_module(instance=instance) -}}
+{%- endfor %}
+
+// ==================================================================================
+// Native tx_context
+
+procedure {:inline 1} $2_tx_context_derive_id(tx_hash: Vec (int), ids_created: int) returns (res: int);
+
+{%- for instance in sui_event_instances %}
+
+// ----------------------------------------------------------------------------------
+// Native Sui event implementation for object type `{{instance.suffix}}`
+
+{{ native::sui_event_module(instance=instance) -}}
+{%- endfor %}
